@@ -25,24 +25,7 @@ public class Scraper {
 
 		webDriver.navigate().to(AMAZON_LINK3);
 		
-		WebElement screenSize = webDriver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_1\"]/tbody/tr[1]/td"));
-		System.out.println("Screen size: " + screenSize.getText());
 		
-		WebElement mfr = webDriver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_2\"]/tbody/tr[1]/td"));
-		System.out.println("Mfr: " + mfr.getText());
-		
-		WebElement os = webDriver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_2\"]/tbody/tr[4]/td"));
-		System.out.println("os: " + os.getText());
-		
-		WebElement cpu = webDriver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_1\"]/tbody/tr[3]/td"));
-		System.out.println("cpu: " + cpu.getText());
-		
-		String cpuModel = getCpuModelFromAmznString(cpu.getText());
-		System.out.println("cpuModel: " + cpuModel);
-		
-		//get storage type
-		WebElement storage = webDriver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_1\"]/tbody/tr[5]/td"));
-		System.out.println(storage.toString());
 		
 		webDriver.close();
 	}
