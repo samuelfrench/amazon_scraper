@@ -34,14 +34,45 @@ public class Scraper {
 		Map<String, String> detailMap = new HashMap<>(); //maps the specification title to the value
 		
 		for(int i = 0; i < matchingClass.size()-1; i++){ //no need to iterate over the last entry, it cannot be a key as a key must be followed by a value (prevents index oob exception)
-			
 			if(matchingClass.get(i).getTagName().equals("th")){ //is this a tableheading (in the product detail table)??
 				System.out.println("putting key: " + matchingClass.get(i).getText() + " value: " + matchingClass.get(i+1).getText());
 				detailMap.put(matchingClass.get(i).getText(), matchingClass.get(i+1).getText()); //if so go ahead and add it to our map
 			}
-			
 		}
 		
+		String mfr = detailMap.getOrDefault("Brand Name", "Unknown");
+		System.out.println("mfr: " + mfr);
+		
+		String os = detailMap.getOrDefault("Operating System", "Unknown");
+		System.out.println("os: " + os);
+		
+		String cpu = detailMap.getOrDefault("Processor", "Unknown");
+		System.out.println("cpu: " + cpu);
+		
+		String cpuModel = parseCpuModel(cpu);
+		System.out.println("cpuModel: " + cpuModel);
+		
+		
 		webDriver.close();
+	}
+	
+	/**
+	 * Get the corresponding value for the cpu model to be placed into our database
+	 * @param cpuString - the String that has all the cpu information in it from the product detail table
+	 * @return the value for the database reference table
+	 * TODO: match using a defined code rather than a case sensitive String
+	 */
+	public static String parseCpuModel(String cpuString){
+		if(cpuString.contains("i7")){
+			return "Core i7";
+		} else if (cpuString.contains("i5")){
+			return "Core i5";
+		} else if(cpuString.contains("i3")){
+			return "Core i3";
+		} else if(cpuString.contains("Core M") || cpuString.contains("core M")){
+			return "Core M";
+		} else {
+			return "Unknown";
+		}
 	}
 }
