@@ -1,5 +1,9 @@
 package scraper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -25,17 +29,19 @@ public class Scraper {
 
 		webDriver.navigate().to(AMAZON_LINK3);
 		
+		List<WebElement> matchingClass = webDriver.findElements(By.className("a-size-base"));
 		
+		Map<String, String> detailMap = new HashMap<>(); //maps the specification title to the value
+		
+		for(int i = 0; i < matchingClass.size()-1; i++){ //no need to iterate over the last entry, it cannot be a key as a key must be followed by a value (prevents index oob exception)
+			
+			if(matchingClass.get(i).getTagName().equals("th")){ //is this a tableheading (in the product detail table)??
+				System.out.println("putting key: " + matchingClass.get(i).getText() + " value: " + matchingClass.get(i+1).getText());
+				detailMap.put(matchingClass.get(i).getText(), matchingClass.get(i+1).getText()); //if so go ahead and add it to our map
+			}
+			
+		}
 		
 		webDriver.close();
 	}
-	
-	public static String getCpuModelFromAmznString(String fullString){
-		String splitString[] = fullString.split(" ");
-		/*for(int x = 0; x < splitString.length; x++){
-			System.out.println("Pos: " + x + " val: " + splitString[x]);
-		}*/
-		return splitString[3] + splitString[4];
-	}
-
 }
