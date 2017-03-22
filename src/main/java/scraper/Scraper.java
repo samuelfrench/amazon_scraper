@@ -52,6 +52,14 @@ public class Scraper {
 		String cpuModel = parseCpuModel(cpu);
 		System.out.println("cpuModel: " + cpuModel);
 		
+		//get storage type
+		String storage = detailMap.getOrDefault("Hard Drive", "Unknown");
+		String storageType = null;
+		if(!storage.equals("Unknown")){
+			storageType = parseStorageType(storage);
+		} else {
+			storageType = "NA"; //code for unknown
+		}
 		
 		webDriver.close();
 	}
@@ -75,4 +83,14 @@ public class Scraper {
 			return "Unknown";
 		}
 	}
+	
+	public static String parseStorageType(String storage){
+		if(storage.toLowerCase().contains("ssd") || storage.toLowerCase().contains("solid")){
+			return "SSD";
+		} else {
+			return "HDD";
+		}
+	}
+	
+	
 }
