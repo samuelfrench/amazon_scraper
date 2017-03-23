@@ -60,6 +60,7 @@ public class Scraper {
 		} else {
 			storageType = "NA"; //code for unknown
 		}
+		System.out.println("storageType: " + storageType);
 		
 		webDriver.close();
 	}
